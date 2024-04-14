@@ -13,6 +13,16 @@ reception::reception(char *fam, char *name, int patients, date some_date) {
     this->appointment = some_date;
 }
 
+reception &reception::operator=(reception &rep) {
+    if (&rep != this) {
+        this->set_fam(rep.get_fam());
+        this->set_name(rep.get_name());
+        this->patients = rep.get_patients();
+        this->appointment = rep.appointment;
+    }
+    return *this;
+}
+
 std::istream &operator>>(std::istream &is, reception &recep) {
     char fam_buff[256];
     char name_buff[256];
@@ -58,6 +68,10 @@ void reception::set_patients(int patients) {
 
 const char *reception::get_date() {
     return this->appointment.get_date();
+}
+
+date reception::get_appointment() {
+    return this->appointment;
 }
 
 void reception::set_date(int day, int month, int year) {

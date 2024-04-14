@@ -4,7 +4,7 @@
 
 date::date() {}
 
-date::~date(){}
+date::~date() {}
 
 date::date(int day, int month, int year) {
     this->day = day;
@@ -25,6 +25,48 @@ date &date::operator=(date &other_date) {
         this->year = other_date.get_year();
     }
     return *this;
+}
+
+bool date::operator==(date other_date) {
+    return day == other_date.day && month == other_date.month && year == other_date.year;
+}
+
+bool date::operator>(date other_date) {
+    if (year != other_date.year) {
+        return year > other_date.year;
+    } else if (month != other_date.month) {
+        return month > other_date.month;
+    } else {
+//        std::cout << "мы здесь\n";
+        return day > other_date.day;
+    }
+}
+
+std::istream &operator>>(std::istream &is, date &cur_date) {
+    char day_buff[256];
+    char month_buff[256];
+    char year_buff[256];
+
+    bool condition = true;
+
+    while (condition) {
+        std::cout << "Введите день, месяц, год даты приема\n";
+        is >> day_buff >> month_buff >> year_buff;
+
+        long day = check_int(day_buff);
+        long month = check_int(month_buff);
+        long year = check_int(year_buff);
+
+        std::cout << std::endl;
+
+        if (!(day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 0)) {
+            std::cout << "Введите данные корректно\n\n";
+        } else {
+            cur_date.set_date(day, month, year);
+            condition = false;
+        }
+    }
+    return is;
 }
 
 int date::get_day() {

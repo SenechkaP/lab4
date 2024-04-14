@@ -40,7 +40,7 @@ public:
 
     friend std::istream &operator>>(std::istream &, doctor &);
 
-    bool operator==(fio &);
+//    bool operator==(fio &);
 
     SpecType get_enum_spec();
 

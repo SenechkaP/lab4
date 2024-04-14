@@ -16,4 +16,6 @@ add_executable(lab4 main.cpp
         reception.cpp
         main.h
         DoctorList.h
-        DoctorList.cpp)
+        DoctorList.cpp
+        ReceptionList.h
+        ReceptionList.cpp)

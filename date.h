@@ -17,7 +17,13 @@ public:
 
     date &operator=(date &);
 
-    const char* get_date();
+    bool operator==(date);
+
+    bool operator>(date);
+
+    friend std::istream &operator>>(std::istream &, date &);
+
+    const char *get_date();
 
     int get_day();
 

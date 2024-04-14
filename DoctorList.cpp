@@ -163,7 +163,6 @@ void DoctorList::processFile(char *file_name) {
         doctor::count_up();
 
         index++;
-        std::cout << "добавление\n";
     }
 
     file.close();

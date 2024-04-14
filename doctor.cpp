@@ -22,13 +22,13 @@ doctor::doctor(doctor &doc) {
 doctor::~doctor() {
 }
 
-bool doctor::operator==(fio &other_fio) {
-    if ((strcmp(this->get_fam(), other_fio.get_fam()) == 0) && (strcmp(this->get_name(), other_fio.get_name()) == 0)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//bool doctor::operator==(fio &other_fio) {
+//    if ((strcmp(this->get_fam(), other_fio.get_fam()) == 0) && (strcmp(this->get_name(), other_fio.get_name()) == 0)) {
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
 
 doctor &doctor::operator=(doctor &doc) {
     if (&doc != this) {

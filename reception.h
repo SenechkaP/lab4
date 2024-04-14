@@ -17,6 +17,8 @@ public:
 
     ~reception();
 
+    reception &operator=(reception &);
+
     friend std::istream &operator>>(std::istream &, reception &);
 
     int get_patients();
@@ -24,6 +26,8 @@ public:
     void set_patients(int);
 
     const char* get_date();
+
+    date get_appointment();
 
     void set_date(int, int, int);
 };
