@@ -33,7 +33,7 @@ public:
 
     reception *find_by_fio(fio &);
 
-    ReceptionList find_by_date(date &);
+    ReceptionList *find_by_date(date &);
 
     void processFile(char *);
 

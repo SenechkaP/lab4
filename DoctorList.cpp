@@ -56,6 +56,7 @@ void DoctorList::add_doctor(doctor &doc) {
     }
     all_doctors[total_doctors] = doc;
     total_doctors += 1;
+    std::cout << "Доктор добавлен\n";
 }
 
 void DoctorList::print_doctors() {
@@ -95,31 +96,31 @@ doctor *DoctorList::find_doctor(fio &initials) {
     return nullptr;
 }
 
-DoctorList DoctorList::find_spec(int spec) {
+DoctorList* DoctorList::find_spec(int spec) {
     int num_founded = 0;
-    DoctorList found_doctors(capacity);
+    DoctorList *found_doctors = new DoctorList(capacity);
 
     for (int i = 0; i < total_doctors; i++) {
         if (spec == all_doctors[i].get_enum_spec()) {
-            found_doctors.all_doctors[num_founded] = all_doctors[i];
+            found_doctors->all_doctors[num_founded] = all_doctors[i];
             num_founded += 1;
         }
     }
-    found_doctors.total_doctors = num_founded;
+    found_doctors->total_doctors = num_founded;
     return found_doctors;
 }
 
-DoctorList DoctorList::find_qual(int qual) {
+DoctorList *DoctorList::find_qual(int qual) {
     int num_founded = 0;
-    DoctorList found_doctors(capacity);
+    DoctorList *found_doctors = new DoctorList(capacity);
 
     for (int i = 0; i < total_doctors; i++) {
         if (qual == all_doctors[i].get_enum_qual()) {
-            found_doctors.all_doctors[num_founded] = all_doctors[i];
+            found_doctors->all_doctors[num_founded] = all_doctors[i];
             num_founded += 1;
         }
     }
-    found_doctors.total_doctors = num_founded;
+    found_doctors->total_doctors = num_founded;
     return found_doctors;
 }
 

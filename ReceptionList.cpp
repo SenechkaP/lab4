@@ -54,6 +54,7 @@ void ReceptionList::add_reception(reception &rec) {
     }
     all_receptions[total_receptions] = rec;
     total_receptions += 1;
+    std::cout << "Запись о приеме добавлена\n";
 }
 
 void ReceptionList::print_receptions() {
@@ -94,17 +95,17 @@ reception *ReceptionList::find_by_fio(fio &initials) {
     return nullptr;
 }
 
-ReceptionList ReceptionList::find_by_date(date &period) {
+ReceptionList *ReceptionList::find_by_date(date &period) {
     int num_founded = 0;
-    ReceptionList found_receptions(capacity);
+    ReceptionList *found_receptions = new ReceptionList(capacity);
 
     for (int i = 0; i < total_receptions; i++) {
         if (period == all_receptions[i].get_appointment()) {
-            found_receptions.all_receptions[num_founded] = all_receptions[i];
+            found_receptions->all_receptions[num_founded] = all_receptions[i];
             num_founded += 1;
         }
     }
-    found_receptions.total_receptions = num_founded;
+    found_receptions->total_receptions = num_founded;
     return found_receptions;
 }
 

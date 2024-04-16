@@ -89,7 +89,7 @@ int main() {
                         cout << "Нет такой специальности\n\n";
                         continue;
                     }
-                    DoctorList founded = doctor_list.find_spec(spec);
+                    DoctorList founded = *doctor_list.find_spec(spec);
                     founded.print_doctors();
                     cout << endl;
                     new_cond = false;
@@ -114,7 +114,7 @@ int main() {
                         cout << "Нет такой квалификации\n\n";
                         continue;
                     }
-                    DoctorList founded = doctor_list.find_qual(qual);
+                    DoctorList founded = *doctor_list.find_qual(qual);
                     founded.print_doctors();
                     cout << endl;
                     new_cond = false;
@@ -153,7 +153,7 @@ int main() {
             case 11: {
                 date date_to_find;
                 cin >> date_to_find;
-                ReceptionList founded = reception_list.find_by_date(date_to_find);
+                ReceptionList founded = *reception_list.find_by_date(date_to_find);
                 founded.print_receptions();
                 cout << endl;
                 break;

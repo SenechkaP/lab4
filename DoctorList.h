@@ -33,9 +33,9 @@ public:
 
     doctor *find_doctor(fio &);
 
-    DoctorList find_spec(int);
+    DoctorList *find_spec(int);
 
-    DoctorList find_qual(int);
+    DoctorList *find_qual(int);
 
     void processFile(char *);
 
