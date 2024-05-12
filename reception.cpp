@@ -24,38 +24,45 @@ reception &reception::operator=(reception &rep) {
 }
 
 std::istream &operator>>(std::istream &is, reception &recep) {
-    char fam_buff[256];
-    char name_buff[256];
     char patients_buff[256];
-    char day_buff[256];
-    char month_buff[256];
-    char year_buff[256];
+
+    fio new_initials;
+    is >> new_initials;
 
     bool condition = true;
 
+    long patients;
     while (condition) {
-        std::cout << "Введите фамилию, имя (доктора), число пациентов, день, месяц, год даты приема\n";
-        is >> fam_buff >> name_buff >> patients_buff >> day_buff >> month_buff >> year_buff;
+        std::cout << "Введите число пациентов\n\n";
+        is >> patients_buff;
 
-        long day = check_int(day_buff);
-        long month = check_int(month_buff);
-        long year = check_int(year_buff);
-        long patients = check_int(patients_buff);
-
-        std::cout << std::endl;
-
-        if (!(check_str(fam_buff) && check_str(name_buff) && day >= 1 && day <= 31 && month >= 1 && month <= 12 &&
-              year >= 0 && patients >= 0)) {
-            std::cout << "Введите данные корректно\n\n";
-        } else {
-            recep.set_fam(fam_buff);
-            recep.set_name(name_buff);
-            recep.set_patients(patients);
-            recep.set_date(day, month, year);
-            condition = false;
+        try {
+            patients = check_int(patients_buff);
         }
+
+        catch (int code) {
+            std::cout << "Число пациентов - целое число\n\n";
+            continue;
+        }
+        condition = false;
     }
+
+    date new_date;
+    is >> new_date;
+
+    recep.set_fam(new_initials.get_fam());
+    recep.set_name(new_initials.get_name());
+    recep.set_patients(patients);
+    recep.set_date(new_date.get_day(), new_date.get_month(), new_date.get_year());
+
     return is;
+}
+
+std::ostream &operator<<(std::ostream &os, reception &recep) {
+    os << std::left << std::setw(30) << recep.get_fam() << std::setw(30)
+       << recep.get_name() << std::setw(30)
+       << recep.get_patients() << std::setw(30) << recep.get_date() << std::endl;
+    return os;
 }
 
 int reception::get_patients() {
@@ -76,4 +83,12 @@ date reception::get_appointment() {
 
 void reception::set_date(int day, int month, int year) {
     this->appointment.set_date(day, month, year);
+}
+
+void reception::make_appointment() {
+    if (this->patients == 0) {
+        throw "У данного врача нет свободных мест для записи\n\n";
+    } else {
+        this->patients -= 1;
+    }
 }

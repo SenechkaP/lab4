@@ -41,44 +41,81 @@ doctor &doctor::operator=(doctor &doc) {
 }
 
 std::istream &operator>>(std::istream &is, doctor &doc) {
-    char fam_buff[256];
-    char name_buff[256];
     char spec_buff[256];
     char qual_buff[256];
 
+    fio new_initials;
+    is >> new_initials;
+
     bool condition = true;
 
+    long spec;
     while (condition) {
-        std::cout << "Введите фамилию, имя, специальность, квалификацию нового доктора\n"
+        std::cout << "Введите специальность нового доктора\n"
                      "специальность - цифра 1, 2 или 3\n"
                      "1 - терапевт\n"
                      "2 - кардиолог\n"
-                     "3 - стоматолог\n\n"
+                     "3 - стоматолог\n\n";
+        is >> spec_buff;
+
+        try {
+            spec = check_spec(spec_buff);
+        }
+
+        catch (int code) {
+            std::cout << "Специальность - целое число!\n\n";
+            continue;
+        }
+        catch (const char *error) {
+            std::cout << error;
+            continue;
+        }
+        condition = false;
+    }
+    std::cout << std::endl;
+
+    condition = true;
+
+    long qual;
+    while (condition) {
+        std::cout << "Введите квалификацию нового доктора\n"
                      "квалификация - цифра 0, 1 или 2\n"
                      "0 - высшая\n"
                      "1 - первая\n"
                      "2 - вторая\n";
-        is >> fam_buff >> name_buff >> spec_buff >> qual_buff;
+        is >> qual_buff;
 
-        long spec = check_int(spec_buff);
-        long qual = check_int(qual_buff);
-
-        std::cout << std::endl;
-
-        if (!(check_str(fam_buff) && check_str(name_buff) && spec >= 1 && spec <= 3 && qual >= 0 && qual <= 2)) {
-            std::cout << "Введите данные корректно\n\n";
-        } else {
-            SpecType new_spec = static_cast<SpecType>(spec);
-            QualType new_qual = static_cast<QualType>(qual);
-
-            doc.set_fam(fam_buff);
-            doc.set_name(name_buff);
-            doc.set_spec(new_spec);
-            doc.set_qual(new_qual);
-            condition = false;
+        try {
+            qual = check_qual(qual_buff);
         }
+
+        catch (int code) {
+            std::cout << "Квалификация - целое число!\n\n";
+            continue;
+        }
+        catch (const char *error) {
+            std::cout << error;
+            continue;
+        }
+        condition = false;
     }
+    std::cout << std::endl;
+
+    SpecType new_spec = static_cast<SpecType>(spec);
+    QualType new_qual = static_cast<QualType>(qual);
+
+    doc.set_fam(new_initials.get_fam());
+    doc.set_name(new_initials.get_name());
+    doc.set_spec(new_spec);
+    doc.set_qual(new_qual);
     return is;
+}
+
+std::ostream &operator<<(std::ostream &os, doctor &doc) {
+    os << std::left << std::setw(30) << doc.get_fam() << std::setw(30)
+       << doc.get_name() << std::setw(30)
+       << doc.get_spec() << std::setw(30) << doc.get_qual() << std::endl;
+    return os;
 }
 
 SpecType doctor::get_enum_spec() {
