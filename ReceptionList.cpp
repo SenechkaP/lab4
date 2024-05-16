@@ -62,14 +62,13 @@ void ReceptionList::print_receptions() {
         std::cout << "Нет записей о приемах в базе\n";
         return;
     }
-    std::cout << std::left << std::setw(30) << "Фамилия" << std::setw(30) << "Имя" << std::setw(30) << "Число пациентов"
+    std::cout << std::left << std::setw(30) << "Фамилия" << std::setw(30) << "Имя" << std::setw(30)
+              << "Число свободных записей"
               << std::setw(30)
               << "Дата приема" << std::endl << std::endl;
 
     for (int i = 0; i < total_receptions; i++) {
-        std::cout << std::left << std::setw(30) << all_receptions[i].get_fam() << std::setw(30)
-                  << all_receptions[i].get_name() << std::setw(30)
-                  << all_receptions[i].get_patients() << std::setw(30) << all_receptions[i].get_date() << std::endl;
+        std::cout << all_receptions[i];
     }
 }
 

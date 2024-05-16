@@ -1,6 +1,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <iostream>
+#include <iomanip>
 #include "fio.h"
 #include "funcs.h"
 
@@ -39,6 +40,8 @@ public:
     doctor &operator=(doctor &);
 
     friend std::istream &operator>>(std::istream &, doctor &);
+
+    friend std::ostream &operator<<(std::ostream &, doctor &);
 
 //    bool operator==(fio &);
 

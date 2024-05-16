@@ -45,13 +45,24 @@ std::istream &operator>>(std::istream &is, fio &fio) {
     char fam_buff[256];
     char name_buff[256];
 
-    std::cout << "Введите фамилию, имя:\n";
-    std::cin >> fam_buff >> name_buff;
+    bool condition = true;
 
-    while (!(check_str(fam_buff), check_str(name_buff))) {
-        std::cout <<"Введите фамилию и имя корректно\n\n";
-        std::cin >> fam_buff >> name_buff;
+    while (condition) {
+        std::cout << "Введите фамилию, имя\n\n";
+        is >> fam_buff >> name_buff;
+
+        try {
+            check_str(fam_buff);
+            check_str(name_buff);
+        }
+
+        catch (int code) {
+            std::cout << "Фамилия и имя - строки, не содержащие цифр.\nПопробуйте еще раз\n\n";
+            continue;
+        }
+        condition = false;
     }
+    std::cout << std::endl;
 
     fio.set_fam(fam_buff);
     fio.set_name(name_buff);

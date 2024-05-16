@@ -48,23 +48,38 @@ std::istream &operator>>(std::istream &is, date &cur_date) {
     char year_buff[256];
 
     bool condition = true;
+    long day;
+    long month;
+    long year;
 
     while (condition) {
-        std::cout << "Введите день, месяц, год даты приема\n";
+        std::cout << "Введите день, месяц, год даты приема\n\n";
         is >> day_buff >> month_buff >> year_buff;
 
-        long day = check_int(day_buff);
-        long month = check_int(month_buff);
-        long year = check_int(year_buff);
+        try {
+            day = check_int(day_buff);
+            month = check_int(month_buff);
+            year = check_int(year_buff);
+        }
+
+        catch (int code) {
+            std::cout << "День, месяц, год - целые числа.\nПопробуйте еще раз\n\n";
+            continue;
+        }
+
+        try {
+            check_date(day, month, year);
+        }
+
+        catch (const char *error) {
+            std::cout << error;
+            continue;
+        }
 
         std::cout << std::endl;
 
-        if (!(day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 0)) {
-            std::cout << "Введите данные корректно\n\n";
-        } else {
-            cur_date.set_date(day, month, year);
-            condition = false;
-        }
+        cur_date.set_date(day, month, year);
+        condition = false;
     }
     return is;
 }

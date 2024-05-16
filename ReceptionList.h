@@ -2,7 +2,6 @@
 
 #include "reception.h"
 #include <fstream>
-#include <iomanip>
 #include <sstream>
 
 class ReceptionList {

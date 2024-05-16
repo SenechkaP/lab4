@@ -69,9 +69,7 @@ void DoctorList::print_doctors() {
               << "Квалификация" << std::endl << std::endl;
 
     for (int i = 0; i < total_doctors; i++) {
-        std::cout << std::left << std::setw(30) << all_doctors[i].get_fam() << std::setw(30)
-                  << all_doctors[i].get_name() << std::setw(30)
-                  << all_doctors[i].get_spec() << std::setw(30) << all_doctors[i].get_qual() << std::endl;
+        std::cout << all_doctors[i];
     }
 }
 

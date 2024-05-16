@@ -4,6 +4,12 @@
 #include <cctype>
 
 
-int check_str(char *str);
+int check_str(char *);
 
-long check_int(char *input);
+long check_int(char *);
+
+long check_spec(char *);
+
+long check_qual(char *);
+
+int check_date(long, long, long);

@@ -27,16 +27,18 @@ int main() {
                 "Вывести информацию о всех приемах........8\n"
                 "Отсортировать приемы по дате.............9\n"
                 "Найти прием по фамилии и имени доктора...10\n"
-                "Найти прием по дате......................11\n\n"
-                "Завершить программу......................12\n\n"
+                "Найти прием по дате......................11\n"
+                "Записаться на прием......................12\n\n"
+                "Завершить программу......................13\n\n"
                 "Введите номер функции: ";
         char input[256];
         long command;
 
         cin >> input;
-        command = check_int(input);
-
-        if (command == -1) {
+        try {
+            command = check_int(input);
+        }
+        catch (int code) {
             cout << "Ошибка. Введите целое число.\n\n";
             continue;
         }
@@ -81,14 +83,20 @@ int main() {
                             "2 - кардиолог\n"
                             "3 - стоматолог\n";
                     cin >> spec_buff;
-                    long spec = check_int(spec_buff);
-                    if (spec == -1) {
+                    long spec;
+                    try {
+                        spec = check_spec(spec_buff);
+                    }
+
+                    catch (int code) {
                         cout << "Специальность - целое число!\n\n";
                         continue;
-                    } else if (spec < 1 || spec > 3) {
-                        cout << "Нет такой специальности\n\n";
+                    }
+                    catch (const char *error) {
+                        cout << error;
                         continue;
                     }
+
                     DoctorList founded = *doctor_list.find_spec(spec);
                     founded.print_doctors();
                     cout << endl;
@@ -106,14 +114,20 @@ int main() {
                             "1 - первая\n"
                             "2 - вторая\n";
                     cin >> qual_buff;
-                    long qual = check_int(qual_buff);
-                    if (qual == -1) {
+                    long qual;
+                    try {
+                        qual = check_qual(qual_buff);
+                    }
+
+                    catch (int code) {
                         cout << "Квалификация - целое число!\n\n";
                         continue;
-                    } else if (qual < 0 || qual > 2) {
-                        cout << "Нет такой квалификации\n\n";
+                    }
+                    catch (const char *error) {
+                        cout << error;
                         continue;
                     }
+
                     DoctorList founded = *doctor_list.find_qual(qual);
                     founded.print_doctors();
                     cout << endl;
@@ -122,10 +136,22 @@ int main() {
                 break;
             }
             case 7: {
+                bool new_cond = true;
                 reception reception_to_add;
-                cin >> reception_to_add;
-                reception_list.add_reception(reception_to_add);
-                cout << endl;
+                while (new_cond) {
+                    cin >> reception_to_add;
+                    fio initials(reception_to_add.get_fam(), reception_to_add.get_name());
+                    doctor *founded_doc = doctor_list.find_doctor(initials);
+                    if (!founded_doc) {
+                        cout << "Доктор с такими фамилией и именем не существует\n"
+                                "(невозможно создать такую запись о приеме)\n\n";
+                        continue;
+                    } else {
+                        reception_list.add_reception(reception_to_add);
+                        cout << endl;
+                        new_cond = false;
+                    }
+                }
                 break;
             }
             case 8:
@@ -158,7 +184,25 @@ int main() {
                 cout << endl;
                 break;
             }
-            case 12:
+            case 12: {
+                fio initials;
+                cin >> initials;
+                reception *founded_rec = reception_list.find_by_fio(initials);
+                if (!founded_rec) {
+                    cout << "У доктора с такими фамилией и именем в целом отсутствуют записи\n\n";
+                } else {
+                    try {
+                        founded_rec->make_appointment();
+                        cout << "Вы записалиись к врачу " << founded_rec->get_fam() << " " << founded_rec->get_name()
+                             << " на дату " << founded_rec->get_date() << "\n\n";
+                    }
+                    catch (const char *error) {
+                        cout << error;
+                    }
+                }
+                break;
+            }
+            case 13:
                 condition = false;
                 doctor_list.save(file_name1);
                 reception_list.save(file_name2);
